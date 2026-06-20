@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanul Services Secure Redirect...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .loader-box {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0052cc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader-box">
+        <div class="spinner"></div>
+        <h2>Opening Secure Payment Page...</h2>
+        <p>Please wait while we set up your transaction details.</p>
+    </div>
+
+    <script>
+        // 1. Grab the custom amount and customer name from your Google Sites URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const amount = urlParams.get('amount') || '';
+        const name = urlParams.get('name') || '';
+
+        // 2. Base BUx link for Hanul Services
+        let buxUrl = "https://app.bux.ph/hanulservices";
+
+        // 3. Automatically append parameters if they exist in the link
+        let queryParams = [];
+        if (amount) queryParams.push(`amount=${encodeURIComponent(amount)}`);
+        if (name) queryParams.push(`description=${encodeURIComponent("Payment from " + name)}`);
+        if (name) queryParams.push(`reference=${encodeURIComponent(name)}`);
+
+        if (queryParams.length > 0) {
+            buxUrl += "?" + queryParams.join("&");
+        }
+
+        // 4. Instantly redirect the customer directly out of the frame
+        window.location.href = buxUrl;
+    </script>
+
+</body>
+</html>
